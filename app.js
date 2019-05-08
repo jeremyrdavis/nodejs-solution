@@ -38,6 +38,7 @@ app.use('/api/greeting', (request, response) => {
 });
 
 app.use('/api/insult', (request, response) => {
+  response.type('application/json');
   // call adjective and noun services
   return Promise.all([
     adj_service.get(),
@@ -45,8 +46,7 @@ app.use('/api/insult', (request, response) => {
     noun_service.get()
   ])
     // eslint-disable-next-line standard/object-curly-even-spacing
-    .then(words => ({ insult:`Verily, ye be a ${words[0]}, ${words[1]} ${words[2]}!`}
-    ))
+    .then(words => response.send({ insult: `Verily, ye be a ${words[0]}, ${words[1]} ${words[2]}!` }))
     .catch(e => console.error(`An unexpected error occurred: ${e}`));
 });
 
